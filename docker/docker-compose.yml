@@ -1,0 +1,23 @@
+version: '3.1'
+networks:
+  zenith_postgresql:
+    external: false
+
+services:
+  db-server:
+    container_name: postgresql
+    image: postgres:alpine3.17
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: zenith
+      POSTGRES_PASSWORD: secret
+    networks:
+      - zenith_postgresql
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
+    driver: local
