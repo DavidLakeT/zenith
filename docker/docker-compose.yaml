@@ -5,7 +5,7 @@ networks:
 
 services:
   db-server:
-    container_name: postgresql
+    container_name: zenith_postgresql
     image: postgres:alpine3.17
     ports:
       - "5432:5432"

@@ -13,6 +13,7 @@ import lombok.Setter;
 @Table(name = "products")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -25,4 +26,7 @@ public class Product {
 
     @Column(name = "price")
     private double price;
+
+    @Column(name = "color")
+    private String color;
 }

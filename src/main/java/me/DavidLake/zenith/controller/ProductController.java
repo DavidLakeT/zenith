@@ -1,5 +1,6 @@
 package me.davidlake.zenith.controller;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,16 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/filter")
+    public List<Product> getFilteredProducts(
+        @RequestParam(name = "brand", required = false) String brand,
+        @RequestParam(name = "price", required = false) Double price,
+        @RequestParam(name = "color", required = false) String color)
+    {
+        return productService.filterProducts(brand, price, color);
+    }
+
+
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
@@ -44,5 +55,6 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
+    
 }
 
