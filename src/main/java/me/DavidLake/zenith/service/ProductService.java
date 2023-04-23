@@ -8,15 +8,31 @@ import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.EntityNotFoundException;
 import me.davidlake.zenith.model.Product;
 import me.davidlake.zenith.repository.ProductRepository;
+import org.hibernate.Session;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Service
 public class ProductService {
  
     @Autowired
     private ProductRepository productRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
  
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public List<Product> getFilteredProducts(double minPrice, double maxPrice, String color) {
+        Session session = entityManager.unwrap(Session.class);
+        session.enableFilter("priceFilter")
+            .setParameter("minPriceParam", minPrice)
+            .setParameter("maxPriceParam", maxPrice);
+        session.enableFilter("colorFilter").setParameter("colorParam", color);
+
+        return session.createQuery("from Product", Product.class).list();
     }
  
     public Product getProductById(Long id) {

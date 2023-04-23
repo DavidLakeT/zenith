@@ -23,8 +23,18 @@ public class ProductController {
 
     @GetMapping("/")
     public List<Product> getAllProducts() {
+        System.out.println("HOLA 1");
         return productService.getAllProducts();
     }
+
+    @GetMapping("/test/test")
+	public List<Product> getFilteredProducts(
+        @RequestParam(name = "minPrice", required = false) Double minPrice,
+        @RequestParam(name = "maxPrice", required = false) Double maxPrice,
+        @RequestParam(name = "color", required = false) String color)
+    {
+		return productService.getFilteredProducts(minPrice, maxPrice, color);
+	}
 
     @GetMapping("/filter/brand/{brand}")
     public List<Product> getProductsByBrand(@PathVariable String brand) {

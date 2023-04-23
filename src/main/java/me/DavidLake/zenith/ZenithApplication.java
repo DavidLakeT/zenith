@@ -10,4 +10,12 @@ public class ZenithApplication {
 		SpringApplication.run(ZenithApplication.class, args);
 	}
 
+	/*
+	 * 
+	 * TO-DO:
+	 * 1. Implement default behaviour for request parameters on controllers (filter)
+	 * 2. Add more filters (marketplace alike)
+	 * 
+	 */
+
 }
