@@ -26,15 +26,20 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/filter")
-    public List<Product> getFilteredProducts(
-        @RequestParam(name = "brand", required = false) String brand,
-        @RequestParam(name = "price", required = false) Double price,
-        @RequestParam(name = "color", required = false) String color)
-    {
-        return productService.filterProducts(brand, price, color);
+    @GetMapping("/filter/brand/{brand}")
+    public List<Product> getProductsByBrand(@PathVariable String brand) {
+        return productService.getProductsByBrand(brand);
     }
 
+    @GetMapping("/filter/price/{price}")
+    public List<Product> getProductsByPrice(@PathVariable double price) {
+        return productService.getProductsByPrice(price);
+    }
+
+    @GetMapping("/filter/color/{color}")
+    public List<Product> getProductsByColor(@PathVariable String color) {
+        return productService.getProductsByColor(color);
+    }
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {

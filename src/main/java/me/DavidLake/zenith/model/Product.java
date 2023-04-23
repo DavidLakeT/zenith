@@ -13,7 +13,6 @@ import lombok.Setter;
 @Table(name = "products")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Product {
 
     @Id

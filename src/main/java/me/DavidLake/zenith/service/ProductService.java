@@ -18,23 +18,21 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-
-    public List<Product> filterProducts(String brand, Double price, String color) {
-        Specification<Product> spec = Specification.where(null);
-        if (brand != null) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("brand"), brand));
-        }
-        if (price != null) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("price"), price));
-        }
-        if (color != null) {
-            spec = spec.and((root, query, builder) -> builder.equal(root.get("color"), color));
-        }
-        return productRepository.findAll(spec);
-    }
  
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+    }
+
+    public List<Product> getProductsByBrand(String brand) {
+        return productRepository.findByBrand(brand);
+    }
+
+    public List<Product> getProductsByPrice(double price) {
+        return productRepository.findByPrice(price);
+    }
+
+    public List<Product> getProductsByColor(String color) {
+        return productRepository.findByColor(color);
     }
  
     public Product createProduct(Product Product) {
