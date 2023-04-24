@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import me.davidlake.zenith.model.Product;
 import me.davidlake.zenith.service.ProductService;
+import me.davidlake.zenith.dto.model.ProductFilterDTO;
 
 @RestController
 @RequestMapping("/products")
@@ -36,19 +37,10 @@ public class ProductController {
 		return productService.getFilteredProducts(minPrice, maxPrice, color);
 	}
 
-    @GetMapping("/filter/brand/{brand}")
-    public List<Product> getProductsByBrand(@PathVariable String brand) {
-        return productService.getProductsByBrand(brand);
-    }
+    @GetMapping("/test/filter")
+    public List<Product> searchProducts(@RequestBody ProductFilterDTO filter) {
 
-    @GetMapping("/filter/price/{price}")
-    public List<Product> getProductsByPrice(@PathVariable double price) {
-        return productService.getProductsByPrice(price);
-    }
-
-    @GetMapping("/filter/color/{color}")
-    public List<Product> getProductsByColor(@PathVariable String color) {
-        return productService.getProductsByColor(color);
+        return productService.filterProductsTest(filter);
     }
 
     @GetMapping("/{id}")

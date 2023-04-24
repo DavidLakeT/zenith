@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.EntityNotFoundException;
+import me.davidlake.zenith.dto.model.ProductFilterDTO;
 import me.davidlake.zenith.model.Product;
 import me.davidlake.zenith.repository.ProductRepository;
 import org.hibernate.Session;
@@ -27,28 +27,36 @@ public class ProductService {
 
     public List<Product> getFilteredProducts(double minPrice, double maxPrice, String color) {
         Session session = entityManager.unwrap(Session.class);
-        session.enableFilter("priceFilter")
-            .setParameter("minPriceParam", minPrice)
-            .setParameter("maxPriceParam", maxPrice);
+        session.enableFilter("minPriceFilter")
+            .setParameter("minPriceParam", minPrice);
         session.enableFilter("colorFilter").setParameter("colorParam", color);
+
+        return session.createQuery("from Product", Product.class).list();
+    }
+
+    public List<Product> filterProductsTest(ProductFilterDTO filter) {
+        Session session = entityManager.unwrap(Session.class);
+
+        if(filter.getMinPrice() != null) { 
+            session.enableFilter("minPriceFilter")
+                .setParameter("minPriceParam", filter.getMinPrice());
+        }
+
+        if(filter.getMaxPrice() != null) { 
+            session.enableFilter("maxPriceFilter")
+                .setParameter("maxPriceParam", filter.getMaxPrice());
+        }
+
+        if(filter.getColor() != null) {
+            session.enableFilter("colorFilter")
+                .setParameter("colorParam", filter.getColor());
+        }
 
         return session.createQuery("from Product", Product.class).list();
     }
  
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
-    }
-
-    public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrand(brand);
-    }
-
-    public List<Product> getProductsByPrice(double price) {
-        return productRepository.findByPrice(price);
-    }
-
-    public List<Product> getProductsByColor(String color) {
-        return productRepository.findByColor(color);
     }
  
     public Product createProduct(Product Product) {
