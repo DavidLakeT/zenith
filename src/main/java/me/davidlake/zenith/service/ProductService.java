@@ -25,16 +25,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public List<Product> getFilteredProducts(double minPrice, double maxPrice, String color) {
-        Session session = entityManager.unwrap(Session.class);
-        session.enableFilter("minPriceFilter")
-            .setParameter("minPriceParam", minPrice);
-        session.enableFilter("colorFilter").setParameter("colorParam", color);
-
-        return session.createQuery("from Product", Product.class).list();
-    }
-
-    public List<Product> filterProductsTest(ProductFilterDTO filter) {
+    public List<Product> getFilteredProducts(ProductFilterDTO filter) {
         Session session = entityManager.unwrap(Session.class);
 
         if(filter.getMinPrice() != null) { 
@@ -50,6 +41,16 @@ public class ProductService {
         if(filter.getColor() != null) {
             session.enableFilter("colorFilter")
                 .setParameter("colorParam", filter.getColor());
+        }
+
+        if(filter.getBrand() != null) {
+            session.enableFilter("brandFilter")
+                .setParameter("brandParam", filter.getBrand());
+        }
+
+        if(filter.getFreeShipping() != null) {
+            session.enableFilter("freeShippingFilter")
+                .setParameter("freeShippingParam", filter.getFreeShipping());
         }
 
         return session.createQuery("from Product", Product.class).list();
@@ -71,6 +72,8 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
         product.setBrand(updatedProduct.getBrand());
         product.setPrice(updatedProduct.getPrice());
+        product.setColor(updatedProduct.getColor());
+        product.setFreeShipping(updatedProduct.isFreeShipping());
         return productRepository.save(product);
     }
 }

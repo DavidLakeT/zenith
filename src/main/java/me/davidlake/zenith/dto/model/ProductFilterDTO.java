@@ -19,4 +19,6 @@ public class ProductFilterDTO {
     private Double minPrice;
     private Double maxPrice;
     private String color;
+    private String brand;
+    private Boolean freeShipping;
 }

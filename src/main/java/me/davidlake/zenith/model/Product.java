@@ -28,12 +28,22 @@ import lombok.Setter;
     parameters = {
         @ParamDef(name="maxPriceParam", type=Double.class)
     }
-),
+    ),
 	@FilterDef(name = "colorFilter",
 		parameters = {
 			@ParamDef(name="colorParam", type=String.class)
         }
-	)
+	),
+    @FilterDef(name = "brandFilter",
+    parameters = {
+        @ParamDef(name="brandParam", type=String.class)
+    }
+    ),
+    @FilterDef(name = "freeShippingFilter",
+    parameters = {
+        @ParamDef(name="freeShippingParam", type=Boolean.class)
+    }
+    )
 })
 @Filters({
 	@Filter(name = "minPriceFilter",
@@ -41,7 +51,11 @@ import lombok.Setter;
     @Filter(name = "maxPriceFilter",
         condition = ":maxPriceParam is null or price <= :maxPriceParam"),
     @Filter(name = "colorFilter",
-            condition = "color = :colorParam")
+            condition = "color = :colorParam"),
+    @Filter(name = "brandFilter",
+            condition = "brand = :brandParam"),
+    @Filter(name = "freeShippingFilter",
+            condition = "free_shipping = :freeShippingParam")
 })
 public class Product {
 
@@ -52,6 +66,9 @@ public class Product {
 
     @Column(name = "brand")
     private String brand;
+
+    @Column(name = "freeShipping")
+    private boolean freeShipping;
 
     @Column(name = "color")
     private String color;
