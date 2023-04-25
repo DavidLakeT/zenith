@@ -13,8 +13,7 @@ public class ZenithApplication {
 	/*
 	 * 
 	 * TO-DO:
-	 * 1. Implement default behaviour for request parameters on controllers (filter)
-	 * 2. Add more filters (marketplace alike)
+	 * 1. Response class implementation on controller
 	 * 
 	 */
 
