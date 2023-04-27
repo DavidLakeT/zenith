@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import me.davidlake.zenith.dto.model.ProductDTO;
 import me.davidlake.zenith.model.Product;
 import me.davidlake.zenith.service.ProductService;
 import me.davidlake.zenith.dto.model.ProductFilterDTO;
@@ -36,7 +37,7 @@ public class ProductController {
 
     @GetMapping("/p/{id}")
     public Response<Object> getProductById(@PathVariable Long id) {
-        Optional<Product> product = productService.getProductById(id);
+        Optional<ProductDTO> product = productService.getProductById(id);
         if(product.isPresent()) {
             return Response.notFound()
                 .setErrors("Product not found");

@@ -2,11 +2,13 @@ package me.davidlake.zenith.service;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import me.davidlake.zenith.dto.model.ProductFilterDTO;
 import me.davidlake.zenith.model.Product;
+import me.davidlake.zenith.dto.mapper.ProductMapper;
+import me.davidlake.zenith.dto.model.ProductDTO;
 import me.davidlake.zenith.repository.ProductRepository;
 import org.hibernate.Session;
 import jakarta.persistence.EntityManager;
@@ -20,12 +22,23 @@ public class ProductService {
 
     @PersistenceContext
     private EntityManager entityManager;
- 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+
+    public List<ProductDTO> getAllProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(product -> {
+                    ProductDTO productDto = new ProductDTO();
+                    return productDto
+                            .setId(product.getId())
+                            .setBrand(product.getBrand())
+                            .setFreeShipping(product.isFreeShipping())
+                            .setColor(product.getColor())
+                            .setPrice(product.getPrice());
+                })
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getFilteredProducts(ProductFilterDTO filter) {
+    public List<ProductDTO> getFilteredProducts(ProductFilterDTO filter) {
         Session session = entityManager.unwrap(Session.class);
 
         if(filter.getMinPrice() != null) { 
@@ -53,15 +66,36 @@ public class ProductService {
                 .setParameter("freeShippingParam", filter.getFreeShipping());
         }
 
-        return session.createQuery("from Product", Product.class).list();
+        return session.createQuery("from Product", Product.class)
+                        .list()
+                        .stream()
+                        .map(product -> {
+                            ProductDTO productDto = new ProductDTO();
+                            return productDto
+                                    .setId(product.getId())
+                                    .setBrand(product.getBrand())
+                                    .setFreeShipping(product.isFreeShipping())
+                                    .setColor(product.getColor())
+                                    .setPrice(product.getPrice());
+                        })
+                        .collect(Collectors.toList());
     }
  
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public Optional<ProductDTO> getProductById(Long id) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    ProductDTO productDto = new ProductDTO();
+                    return productDto
+                            .setId(product.getId())
+                            .setBrand(product.getBrand())
+                            .setFreeShipping(product.isFreeShipping())
+                            .setColor(product.getColor())
+                            .setPrice(product.getPrice());
+                });
     }
  
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDTO createProduct(Product product) {
+        return ProductMapper.toProductDTO(productRepository.save(product));
     }
  
     public Optional<Product> deleteProduct(Long id) {
