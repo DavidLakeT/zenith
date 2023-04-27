@@ -1,7 +1,6 @@
 package me.davidlake.zenith.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
@@ -60,13 +59,16 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
  
-    public Product createProduct(Product Product) {
-        return productRepository.save(Product);
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
     }
  
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    public Product deleteProduct(Long id) {
+        Product targetProduct = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        productRepository.delete(targetProduct);
+        return targetProduct;
     }
+    
  
     public Product updateProduct(Long id, Product updatedProduct) {
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));

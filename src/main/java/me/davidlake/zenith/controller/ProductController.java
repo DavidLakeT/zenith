@@ -3,7 +3,6 @@ package me.davidlake.zenith.controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import me.davidlake.zenith.model.Product;
 import me.davidlake.zenith.service.ProductService;
 import me.davidlake.zenith.dto.model.ProductFilterDTO;
+import me.davidlake.zenith.dto.response.Response;
 
 @RestController
 @RequestMapping("/products")
@@ -22,34 +22,33 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public Response<Object> getAllProducts() {
+        return Response.ok().setPayload(productService.getAllProducts());
     }
 
     @GetMapping("/filter")
-    public List<Product> searchProducts(@RequestBody ProductFilterDTO filter) {
-        return productService.getFilteredProducts(filter);
+    public Response<Object> searchProducts(@RequestBody ProductFilterDTO filter) {
+        return Response.ok().setPayload(productService.getFilteredProducts(filter));
     }
 
     @GetMapping("/p/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    public Response<Object> getProductById(@PathVariable Long id) {
+        return Response.ok().setPayload(productService.getProductById(id));
     }
 
     @PostMapping("/create")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public Response<Object> createProduct(@RequestBody Product product) {
+        return Response.ok().setPayload(productService.createProduct(product));
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
-        return productService.updateProduct(id, updatedProduct);
+    public Response<Object> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
+        return Response.ok().setPayload(productService.updateProduct(id, updatedProduct));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    public Response<Object> deleteProduct(@PathVariable Long id) {
+        return Response.ok().setPayload(productService.deleteProduct(id));
     }
-    
 }
 
