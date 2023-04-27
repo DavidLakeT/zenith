@@ -57,8 +57,8 @@ public class ProductService {
         return session.createQuery("from Product", Product.class).list();
     }
  
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+    public Optional<Product> getProductById(Long id) {
+        return productRepository.findById(id);
     }
  
     public Product createProduct(Product product) {
@@ -66,20 +66,24 @@ public class ProductService {
     }
  
     public Optional<Product> deleteProduct(Long id) {
-        Optional<Product> targetProduct = productRepository.findById(id);
-        if(targetProduct.isPresent()) {
-            productRepository.delete(targetProduct.get());
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isPresent()) {
+            productRepository.delete(product.get());
         }
 
-        return targetProduct;
+        return product;
     }
  
-    public Product updateProduct(Long id, Product updatedProduct) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
-        product.setBrand(updatedProduct.getBrand());
-        product.setPrice(updatedProduct.getPrice());
-        product.setColor(updatedProduct.getColor());
-        product.setFreeShipping(updatedProduct.isFreeShipping());
-        return productRepository.save(product);
+    public Optional<Product> updateProduct(Long id, Product updatedProduct) {
+        Optional<Product> product = productRepository.findById(id);
+        if(!product.isPresent()) {
+            return product;
+        }
+        Product productSome = product.get();
+        productSome.setBrand(updatedProduct.getBrand());
+        productSome.setPrice(updatedProduct.getPrice());
+        productSome.setColor(updatedProduct.getColor());
+        productSome.setFreeShipping(updatedProduct.isFreeShipping());
+        return Optional.ofNullable(productRepository.save(productSome));
     }
 }

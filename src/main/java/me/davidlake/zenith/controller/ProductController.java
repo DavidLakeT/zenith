@@ -36,7 +36,12 @@ public class ProductController {
 
     @GetMapping("/p/{id}")
     public Response<Object> getProductById(@PathVariable Long id) {
-        return Response.ok().setPayload(productService.getProductById(id));
+        Optional<Product> product = productService.getProductById(id);
+        if(product.isPresent()) {
+            return Response.notFound()
+                .setErrors("Product not found");
+        }
+        return Response.ok().setPayload(product.get());
     }
 
     @PostMapping("/create")
@@ -46,17 +51,22 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public Response<Object> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
-        return Response.ok().setPayload(productService.updateProduct(id, updatedProduct));
+        Optional<Product> product = productService.updateProduct(id, updatedProduct);
+        if(!product.isPresent()) {
+            return Response.notFound()
+                .setErrors("Product not found");
+        }
+        return Response.ok().setPayload(product.get());
     }
 
     @DeleteMapping("/{id}")
     public Response<Object> deleteProduct(@PathVariable Long id) {
-        Optional<Product> targetProduct = productService.deleteProduct(id);
-        if(!targetProduct.isPresent()) {
+        Optional<Product> product = productService.deleteProduct(id);
+        if(!product.isPresent()) {
             return Response.notFound()
                 .setErrors("Product not found");
         }
-        return Response.ok().setPayload(targetProduct.get());
+        return Response.ok().setPayload(product.get());
     }
 }
 
