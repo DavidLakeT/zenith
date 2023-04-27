@@ -1,4 +1,4 @@
-package me.davidlake.zenith.controller;
+package me.davidlake.zenith.controller.api;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;

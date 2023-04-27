@@ -9,12 +9,5 @@ public class ZenithApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZenithApplication.class, args);
 	}
-
-	/*
-	 * 
-	 * TO-DO:
-	 * 1. Implement error handling for controller.
-	 * 
-	 */
-
+	
 }
