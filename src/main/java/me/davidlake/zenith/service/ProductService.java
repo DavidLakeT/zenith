@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.persistence.EntityNotFoundException;
 import me.davidlake.zenith.dto.model.ProductFilterDTO;
 import me.davidlake.zenith.model.Product;
 import me.davidlake.zenith.repository.ProductRepository;
