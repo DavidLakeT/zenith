@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public Response<Object> searchProducts(@RequestBody ProductFilterDTO filter) {
+    public Response<Object> filterProducts(@RequestBody ProductFilterDTO filter) {
         return Response.ok().setPayload(productService.getFilteredProducts(filter));
     }
 
