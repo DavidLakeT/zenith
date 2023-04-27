@@ -13,7 +13,7 @@ public class ZenithApplication {
 	/*
 	 * 
 	 * TO-DO:
-	 * 1. Response class implementation on controller
+	 * 1. Implement error handling for controller.
 	 * 
 	 */
 
