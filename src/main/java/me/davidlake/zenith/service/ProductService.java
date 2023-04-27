@@ -11,6 +11,8 @@ import me.davidlake.zenith.dto.mapper.ProductMapper;
 import me.davidlake.zenith.dto.model.ProductDTO;
 import me.davidlake.zenith.repository.ProductRepository;
 import org.hibernate.Session;
+import org.modelmapper.ModelMapper;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -23,18 +25,13 @@ public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll()
                 .stream()
-                .map(product -> {
-                    ProductDTO productDto = new ProductDTO();
-                    return productDto
-                            .setId(product.getId())
-                            .setBrand(product.getBrand())
-                            .setFreeShipping(product.isFreeShipping())
-                            .setColor(product.getColor())
-                            .setPrice(product.getPrice());
-                })
+                .map(product -> modelMapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -69,54 +66,38 @@ public class ProductService {
         return session.createQuery("from Product", Product.class)
                         .list()
                         .stream()
-                        .map(product -> {
-                            ProductDTO productDto = new ProductDTO();
-                            return productDto
-                                    .setId(product.getId())
-                                    .setBrand(product.getBrand())
-                                    .setFreeShipping(product.isFreeShipping())
-                                    .setColor(product.getColor())
-                                    .setPrice(product.getPrice());
-                        })
+                        .map(product -> modelMapper.map(product, ProductDTO.class))
                         .collect(Collectors.toList());
     }
  
     public Optional<ProductDTO> getProductById(Long id) {
         return productRepository.findById(id)
-                .map(product -> {
-                    ProductDTO productDto = new ProductDTO();
-                    return productDto
-                            .setId(product.getId())
-                            .setBrand(product.getBrand())
-                            .setFreeShipping(product.isFreeShipping())
-                            .setColor(product.getColor())
-                            .setPrice(product.getPrice());
-                });
+                .map(product -> modelMapper.map(product, ProductDTO.class));
     }
  
-    public ProductDTO createProduct(Product product) {
-        return ProductMapper.toProductDTO(productRepository.save(product));
+    public ProductDTO createProduct(ProductDTO product) {
+        Product productModel = modelMapper.map(product, Product.class);
+        productRepository.save(productModel);
+        return modelMapper.map(productModel, ProductDTO.class);
     }
  
-    public Optional<Product> deleteProduct(Long id) {
+    public Optional<ProductDTO> deleteProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if(product.isPresent()) {
             productRepository.delete(product.get());
+            ProductDTO productDTO = ProductMapper.toProductDTO(product.get());
+            return Optional.ofNullable(productDTO);
         }
-
-        return product;
+        return Optional.empty();
     }
- 
-    public Optional<Product> updateProduct(Long id, Product updatedProduct) {
+    
+    public Optional<ProductDTO> updateProduct(Long id, ProductDTO updatedProduct) {
         Optional<Product> product = productRepository.findById(id);
         if(!product.isPresent()) {
-            return product;
+            return Optional.empty();
         }
-        Product productSome = product.get();
-        productSome.setBrand(updatedProduct.getBrand());
-        productSome.setPrice(updatedProduct.getPrice());
-        productSome.setColor(updatedProduct.getColor());
-        productSome.setFreeShipping(updatedProduct.isFreeShipping());
-        return Optional.ofNullable(productRepository.save(productSome));
+        Product productModel = modelMapper.map(updatedProduct, Product.class);
+        productRepository.save(productModel);
+        return Optional.ofNullable(modelMapper.map(productModel, ProductDTO.class));
     }
 }

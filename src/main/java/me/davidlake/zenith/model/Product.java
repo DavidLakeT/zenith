@@ -13,9 +13,11 @@ import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "products")
+@Accessors(chain = true)
 @Getter
 @Setter
 @FilterDefs({
