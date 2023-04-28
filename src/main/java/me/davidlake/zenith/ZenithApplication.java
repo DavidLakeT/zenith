@@ -9,5 +9,12 @@ public class ZenithApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZenithApplication.class, args);
 	}
+
+	/*
+	 * 
+	 * TO-DO:
+	 * - Handle RequestBody fields (type assertions)
+	 * 
+	 */
 	
 }

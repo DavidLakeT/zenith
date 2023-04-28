@@ -1,4 +1,4 @@
-package me.davidlake.zenith.dto.model;
+package me.davidlake.zenith.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductFilterDTO {
+public class FilterRequestDTO {
     private Double minPrice;
     private Double maxPrice;
     private String color;

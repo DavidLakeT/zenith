@@ -5,14 +5,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import me.davidlake.zenith.dto.model.ProductFilterDTO;
 import me.davidlake.zenith.model.Product;
+import me.davidlake.zenith.controller.request.FilterRequestDTO;
 import me.davidlake.zenith.dto.mapper.ProductMapper;
 import me.davidlake.zenith.dto.model.ProductDTO;
 import me.davidlake.zenith.repository.ProductRepository;
 import org.hibernate.Session;
 import org.modelmapper.ModelMapper;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -35,7 +34,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductDTO> getFilteredProducts(ProductFilterDTO filter) {
+    public List<ProductDTO> getFilteredProducts(FilterRequestDTO filter) {
         Session session = entityManager.unwrap(Session.class);
 
         if(filter.getMinPrice() != null) { 

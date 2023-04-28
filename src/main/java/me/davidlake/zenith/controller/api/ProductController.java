@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import me.davidlake.zenith.controller.request.FilterRequestDTO;
 import me.davidlake.zenith.dto.model.ProductDTO;
 import me.davidlake.zenith.service.ProductService;
-import me.davidlake.zenith.dto.model.ProductFilterDTO;
 import me.davidlake.zenith.dto.response.Response;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
+    final String ErrorMessage404 = "Product not found.";
 
     @Autowired
     private ProductService productService;
@@ -28,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public Response<Object> filterProducts(@RequestBody ProductFilterDTO filter) {
+    public Response<Object> filterProducts(@RequestBody FilterRequestDTO filter) {
         return Response.ok().setPayload(productService.getFilteredProducts(filter));
     }
 
@@ -37,7 +39,7 @@ public class ProductController {
         Optional<ProductDTO> product = productService.getProductById(id);
         if(!product.isPresent()) {
             return Response.notFound()
-                .setErrors("Product not found");
+                .setErrors(ErrorMessage404);
         }
         return Response.ok().setPayload(product.get());
     }
@@ -52,7 +54,7 @@ public class ProductController {
         Optional<ProductDTO> product = productService.updateProduct(id, updatedProduct);
         if(!product.isPresent()) {
             return Response.notFound()
-                .setErrors("Product not found");
+                .setErrors(ErrorMessage404);
         }
         return Response.ok().setPayload(product.get());
     }
@@ -62,7 +64,7 @@ public class ProductController {
         Optional<ProductDTO> product = productService.deleteProduct(id);
         if(!product.isPresent()) {
             return Response.notFound()
-                .setErrors("Product not found");
+                .setErrors(ErrorMessage404);
         }
         return Response.ok().setPayload(product.get());
     }
