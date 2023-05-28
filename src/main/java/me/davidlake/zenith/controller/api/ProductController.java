@@ -19,7 +19,8 @@ import me.davidlake.zenith.dto.response.Response;
 @RequestMapping("/products")
 public class ProductController {
 
-    final String ErrorMessage404 = "Product not found.";
+    final String ErrorMessage404 = "Product not found";
+    final String ErrorNotValidId = "ID must be a number greater than 0";
 
     @Autowired
     private ProductService productService;
@@ -36,6 +37,10 @@ public class ProductController {
 
     @GetMapping("/p/{id}")
     public Response<Object> getProductById(@PathVariable Long id) {
+        if id < 0 {
+            return Response.badRequest().setErrors(ErrorNotValidId)
+        }
+
         Optional<ProductDTO> product = productService.getProductById(id);
         if(!product.isPresent()) {
             return Response.notFound()
