@@ -17,8 +17,15 @@ import lombok.experimental.Accessors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDTO {
     private long id;
+
+    @NotBlank(message = "Brand cannot be blank")
     private String brand;
+
     private boolean freeShipping;
+
+    @NotBlank(message = "Color cannot be blank")
     private String color;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     private double price;
 }
