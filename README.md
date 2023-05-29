@@ -42,9 +42,9 @@ This project was carried out with the intention of putting into practice concept
 
 Generally speaking, **Zenith** has as main components:
 - **ORM:** Hibernate.
-- Framework:** Spring Boot.
-- Database:** PostgreSQL.
-- Libraries:** Lombok (Annotation processor), ModelMapper.
+- **Framework:** Spring Boot.
+- **Database:** PostgreSQL.
+- **Libraries:** Lombok (Annotation processor), ModelMapper.
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
