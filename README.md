@@ -31,10 +31,8 @@
 
 This project was carried out with the intention of putting into practice concepts oriented towards backend development; this is why we sought to simulate in a simple way all the components that make up an API, among these:
 - _Repositories_, where to perform the management of CRUD operations with the system models.
-- Services_, where the business logic is handled.
-- Controllers_, responsible for the correct handling of requests and their responses.
-
-<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
+- _Services_, where the business logic is handled.
+- _Controllers_, responsible for the correct handling of requests and their responses.
 
 ---
 
@@ -45,8 +43,6 @@ Generally speaking, **Zenith** has as main components:
 - **Framework:** Spring Boot.
 - **Database:** PostgreSQL.
 - **Libraries:** Lombok (Annotation processor), ModelMapper.
-
-<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
 ---
 
@@ -84,13 +80,11 @@ cd docker
 Zenith's goal is to simply embrace vital concepts in the world of backend development and microservices through an API that can serve a few endpoints. 
 
 Here are some of the aspects that could be considered in the future for the implementation of the project:
-- Models that can interact with each other (ex: Products + Customers).
+- Models that can interact with each other (eg: Products + Customers).
 - Authentication + User validation.
 - Session management (JWT).
 
 The development of Zenith is currently frozen so these features are open to public intention to contribute to open-source development.
-
-<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
 ---
 
@@ -98,19 +92,15 @@ The development of Zenith is currently frozen so these features are open to publ
 
 Zenith is under free open source [_MIT License_](https://github.com/DavidLakeT/zenith/blob/master/LICENSE.txt).
 
-<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
-
 ---
 
 ## Call to action[](#call-to-action)
 
 Join this project and provide assistance by:
-* Checking out the list of [open issues](https://github.com/DavidLakeT/zenith/issues) where we need help.
+* Checking out the list of [open issues](https://github.com/DavidLakeT/zenith/issues) where Zenith could need help.
 * If you need new features, please open a [new issue](https://github.com/DavidLakeT/zenith/issues) or start a [discussion](https://github.com/DavidLakeT/zenith/discussions).
 
 Feel free to contact me if you have any questions or contributions to make to the project.
-
-<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
 ---
 
